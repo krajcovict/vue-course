@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <title>Vue Course</title>
+</head>
+<body>
+    <div id="app">
+        <h3>Two way data binding</h3>
+        <input type="text" v-model="name">
+        <input type="number" v-model="age">
+        <p>{{name}} is {{age}} years old.</p>
+        <!-- modifiers .trim .lazy .number -->
+    </div>
+</body>
+<script>
+    const { createApp, ref, reactive } = Vue;
+    let name = ref("Ben");
+    let age = ref(20);
+
+    createApp({
+        setup() {
+            return{
+                name,
+                age,
+            };
+        },
+    }).mount("#app");
+</script>
+
+</html>

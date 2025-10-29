@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <title>Vue Course</title>
+</head>
+<body>
+    <div id="app">
+        <h1>{{message}}</h1>
+        <h2>Transformed to uppercase: {{getMessage()}}</h2>
+        <p>---------------------------------</p>
+        <p>{{employee.name}}</p>
+        <p>{{employee.salary}} {{update()}}</p>
+        <p v-show="employee.hasCorporateCard">Card spending limit [v-show display none if false]: {{employee.spendingLimit}}</p>
+        <p v-if="employee.hasCorporateCard">Card spending limit [v-if not render if false]: {{employee.spendingLimit}}</p>
+  
+        <p v-else>Employee doaes not have a corporate card</p>
+        <p>v-else-if v-for directives</p>
+        <p v-for="(number, index) in numbers">At position {{index}} is number: {{number}}</p>
+        <p>:key="" in v-for when using objects</p>
+        <p>---------------------------------</p>
+        <p>{{numbers}}</p>
+        <p>Random number using js inside curly brackets 1-10: {{Math.floor(Math.random()*10)+1}}</p>
+        <p>Random number using function 1-15: {{anotherRandom()}}</p>
+    </div>
+</body>
+<script>
+    const { createApp, ref } = Vue;
+
+    createApp({
+        setup() {
+            const message = "Hello Vue";
+            const numbers = [2,3,4,5];
+            const employee = ref({
+                name: "John",
+                age: 40,
+                salary: 50000,
+                hasCorporateCard: false,
+                spendingLimit: 10000,
+            });
+
+            function anotherRandom(){
+                return Math.floor(Math.random()*15) + 1;
+            }
+            function getMessage(params) {
+                return message.toUpperCase();
+            }
+            function update() {
+                setTimeout(() => {
+                    employee.value.salary = 70000;
+                }, 3000);
+            }
+            return{
+                message,
+                numbers,
+                employee,
+                anotherRandom,
+                getMessage,
+                update,
+            };
+        },
+    }).mount("#app");
+</script>
+</html>

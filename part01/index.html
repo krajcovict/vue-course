@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <title>Vue Course</title>
+</head>
+<body>
+    <div id="app">
+        <h1>{{message}}</h1>
+        <h2>Transformed to uppercase: {{getMessage()}}</h2>
+        <p>Here is v-html directive:</p>
+        <div v-html="example()"></div>
+        <p>If we use v-once, it will be rendered only once, not rerendered.</p>
+        <a v-bind:href="webUrl">Visit Google</a>
+        <p>---------------------------------</p>
+        <p>{{employee.name}} , lucky number {{luckyNumber}}</p>
+
+        <p>Our number is <b>{{luckyNumber %2 == 0 ? "even number" : "odd number"}}</b></p>
+        <p>{{numbers}}</p>
+        <p>Random number using js inside curly brackets 1-10: {{Math.floor(Math.random()*10)+1}}</p>
+        <p>Random number using function 1-15: {{anotherRandom()}}</p>
+        <br>
+        <p>
+            Using ref() we need updating .value when we need something dynamic.
+            also we need to import ref const { createApp } = Vue;
+        </p>
+        <p>
+            We can use reactive() instead of ref(). It's the same but in that case .value property is not needed.
+            It's simpler way to make complex <b>objects</b> dynamic.
+            Reactive not work with primitive types like string or number.
+        </p>
+        <br>
+        <p>{{employee.salary}} {{update()}}</p>
+    </div>
+</body>
+<script>
+    const { createApp, ref } = Vue;
+
+    createApp({
+        setup() {
+            const message = "Hello Vue World!";
+            const webUrl = "https://www.google.com";
+            const luckyNumber = 3;
+            const numbers = [2,3,4,5];
+            const employee = ref({
+                name: "John",
+                age: 40,
+                salary: 50000,
+            });
+
+            function anotherRandom(){
+                return Math.floor(Math.random()*15) + 1;
+            }
+            function getMessage(params) {
+                return message.toUpperCase();
+            }
+            function update() {
+                setTimeout(() => {
+                    employee.value.salary = 70000;
+                }, 3000);
+            }
+            function example() {
+                return `<h3><u>${message}</u></h3>`;
+            }
+            return{
+                message,
+                numbers,
+                employee,
+                luckyNumber,
+                anotherRandom,
+                getMessage,
+                update,
+                example,
+                webUrl,
+            };
+        },
+    }).mount("#app");
+</script>
+</html>
