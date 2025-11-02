@@ -1,6 +1,9 @@
 <template>
-    <div id="app" class="container">
-        <h1>Welcome to Vue</h1>
+    <div id="app" class="container text-center bg-light">
+        <h1 class="py-3">Welcome to Vue</h1>
+        <div class="py-3">Choose maximum for Lucky Number:
+            <input class="text-center w-25" v-model.number="maxNumber">
+        </div>
         <div>
             <div v-for="contact in contacts" :key="contact.name">
                 <Contact
@@ -10,17 +13,27 @@
                     :ownername="contact.ownername"
                     :isFavorite="contact.isFavorite"
                     @update-favorite="contact.isFavorite = onUpdateFavorite($event)"
+            
                 ></Contact>
             </div>
         </div>
+        <AddContact @add-contact="onAddContact"></AddContact>
         <ButtonCount></ButtonCount>
+        <LuckyNumber :max-number=10></LuckyNumber>
+        <hr>
     </div>
 </template>
 
 <script setup>
-import { reactive } from 'vue';
-import Contact from './components/Contact.vue';
+import { reactive, ref, provide } from 'vue';
+// import Contact from './components/Contact.vue'; component in main.js
 import ButtonCount from './components/ButtonCount.vue';
+import AddContact from './components/AddContact.vue';
+import LuckyNumber from './components/LuckyNumber.vue';
+
+const maxNumber = ref(100);
+
+provide('maxLuckyNumber', maxNumber);
 
 const contacts = reactive([
     { 
@@ -41,6 +54,11 @@ const contacts = reactive([
         isFavorite: true,
     },
 ]);
+
+function onAddContact(contact) {
+    contacts.push(contact);
+}
+
 function onUpdateFavorite(isFavoriteFromChild) {
     return !isFavoriteFromChild;
 }
@@ -48,11 +66,6 @@ function onUpdateFavorite(isFavoriteFromChild) {
 
 <style>
 #app {
-    font-family: Avenir, Helvetica, Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-align: center;
     color: #2c3e50;
-    margin-top: 60px;
 }
 </style>
